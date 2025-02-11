@@ -11,3 +11,10 @@ DATABASE_URL = settings.DATABASE_URL
 class Base(AsyncAttrs, DeclarativeBase):
     __abstract__ = True
     pass
+
+
+async def get_session():
+    '''Функция для получения сессии базы данных. Вызывается в зависимостях FastAPI'''
+    async with async_session_maker() as session:
+        yield session
+

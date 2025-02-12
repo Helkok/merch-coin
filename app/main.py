@@ -43,6 +43,10 @@ def create_app() -> FastAPI:
                 openapi_schema["paths"][path][method]["responses"].pop("422", None)
 
         app.openapi_schema = openapi_schema
+
+        # Удаляем HTTPValidationError и ValidationError из документации (согласно шаблону задания)
+        app.openapi_schema['components']['schemas'].pop('HTTPValidationError', None)
+        app.openapi_schema['components']['schemas'].pop('ValidationError', None)
         return openapi_schema
 
     app.openapi = custom_openapi

@@ -4,8 +4,10 @@ from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import *
 from app.core.db import get_session
+from app.models import *
+from app.schemas.schemas import AuthRequest
+from app.utils.utils import hash_password
 
 BDconnect = Annotated[AsyncSession, Depends(get_session)]
 
@@ -34,6 +36,15 @@ class BaseDAO:
 
 class UserDAO(BaseDAO):
     model = User
+
+    @classmethod
+    async def add_user(cls, session: AsyncSession, values: AuthRequest):
+        '''Функция для добавления пользователя в базу данных'''
+        hashed_password = hash_password(values.password)
+        new_user = cls.model(username=values.username, password_hash=hashed_password)
+        session.add(new_user)
+        await session.commit()
+        return new_user
 
 
 class InventoryDAO(BaseDAO):

@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
-from jose import jwt, JWTError
+
 import bcrypt
+from jose import JWTError, jwt
+
 from app.core.config import settings
 
 

@@ -2,7 +2,7 @@ from app.schemas.schemas import AuthResponse, ErrorResponse
 
 RESPONSES = {
     200: {
-        "description": "Успешная аутентификация.",
+        "description": "Успешный ответ.",
         "model": AuthResponse,
     },
     400: {

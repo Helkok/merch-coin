@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
 from fastapi.openapi.utils import get_openapi
+from fastapi.responses import JSONResponse
 
 from app.api.main import api_router
 
@@ -9,10 +9,6 @@ from app.api.main import api_router
 def create_app() -> FastAPI:
     """Создание FastAPI-приложения с кастомной конфигурацией."""
     app = FastAPI(title="API Avito shop", version="1.0.0")
-
-    @app.get("/")
-    async def root():
-        return {"message": "Hello World"}
 
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -22,7 +18,8 @@ def create_app() -> FastAPI:
         )
 
     def custom_openapi():
-        """Генерация OpenAPI-схемы без 422 ошибок."""
+        """Генерация OpenAPI-схемы без 422 ошибок.
+        (в предоставленном API не используется, но генерируется автоматически FastAPI)"""
         if app.openapi_schema:
             return app.openapi_schema
         openapi_schema = get_openapi(

@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING
 
-from app.core.db import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.core.db import Base
 
 if TYPE_CHECKING:
     from app.models.transaction import Transaction
@@ -16,9 +17,10 @@ class User(Base):
     username: Mapped[str] = mapped_column(unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(nullable=False)
     coins: Mapped[int] = mapped_column(default=1000)
-    transactions_sent: Mapped["Transaction"] = relationship("Transaction", foreign_keys="Transaction.sender_id", back_populates="sender")
+    transactions_sent: Mapped["Transaction"] = relationship("Transaction", foreign_keys="Transaction.sender_id",
+                                                            back_populates="sender")
     transactions_received: Mapped["Transaction"] = relationship("Transaction", foreign_keys="Transaction.receiver_id",
-                                                              back_populates="receiver")
+                                                                back_populates="receiver")
     inventory: Mapped["Inventory"] = relationship("Inventory", back_populates="user", cascade="all, delete-orphan")
 
     def add_coins(self, amount: int):

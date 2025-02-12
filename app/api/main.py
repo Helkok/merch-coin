@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.api.auth import router as auth_router
-from app.constants import RESPONSES
+from app.utils.constants import RESPONSES
 
 api_router = APIRouter()
 

@@ -4,6 +4,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 
 from app.api.main import api_router
+from app.utils.exceptions import CustomHTTPException
 
 
 def create_app() -> FastAPI:
@@ -15,6 +16,15 @@ def create_app() -> FastAPI:
         return JSONResponse(
             status_code=400,
             content={"detail": "Invalid request data", "errors": exc.errors()},
+        )
+
+    # Кастомный обработчик ошибок
+    @app.exception_handler(CustomHTTPException)
+    async def custom_http_exception_handler(request: Request, exc: CustomHTTPException):
+        # Здесь мы извлекаем из exc только поле `errors` и возвращаем его
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"errors": exc.detail.errors}  # Отдаем только поле `errors`
         )
 
     def custom_openapi():

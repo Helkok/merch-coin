@@ -1,10 +1,6 @@
-from app.schemas.schemas import AuthResponse, ErrorResponse
+from app.schemas.schemas import ErrorResponse
 
 RESPONSES = {
-    200: {
-        "description": "Успешный ответ.",
-        "model": AuthResponse,
-    },
     400: {
         "description": "Неверный запрос.",
         "model": ErrorResponse,
@@ -16,5 +12,18 @@ RESPONSES = {
     500: {
         "description": "Внутренняя ошибка сервера.",
         "model": ErrorResponse,
-    },
+    }
+}
+
+MERCH = {
+    "t-shirt": 80,
+    "cup": 20,
+    "book": 50,
+    "pen": 10,
+    "powerbank": 200,
+    "hoody": 300,
+    "umbrella": 200,
+    "socks": 10,
+    "wallet": 50,
+    "pink-hoody": 500
 }

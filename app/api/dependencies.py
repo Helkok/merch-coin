@@ -4,10 +4,10 @@ from typing import Annotated
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from app.core.security import verify_access_token
 from app.models import User
 from app.utils.base import BDconnect, UserDAO
 from app.utils.exceptions import UnauthorizedError
-from app.utils.utils import verify_access_token
 
 token_bearer = HTTPBearer(auto_error=False)
 

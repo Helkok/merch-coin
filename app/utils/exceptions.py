@@ -14,12 +14,6 @@ class CustomHTTPException(HTTPException):
         super().__init__(status_code=self.status_code, detail=detail)
 
 
-class OKResponse(CustomHTTPException):
-    '''Класс ошибки 200 для успешного запроса.'''
-    status_code = status.HTTP_200_OK
-    detail = "Успешно."
-
-
 class BadRequestError(CustomHTTPException):
     '''Класс ошибки 400 для неверного запроса.'''
     status_code = status.HTTP_400_BAD_REQUEST

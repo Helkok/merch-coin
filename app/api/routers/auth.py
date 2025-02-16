@@ -1,7 +1,9 @@
 from fastapi import APIRouter
 
 from app.core.security import create_access_token, verify_password
+
 from app.schemas.schemas import AuthRequest, AuthResponse
+
 from app.utils.base import BDconnect, UserDAO
 from app.utils.exceptions import UnauthorizedError
 
@@ -21,20 +23,3 @@ async def auth(request: AuthRequest, db: BDconnect):
         raise UnauthorizedError
     access_token = create_access_token({"sub": str(user.username)})
     return {"token": access_token}
-
-
-# @router.get("/me",
-#             summary="Получение информации о текущем пользователе.")
-# async def me(user: current_user):
-#     return user
-#
-#
-@router.get('/')
-async def root():
-    return {"message": "Hello World"}
-
-#
-# @router.get('/test')
-# async def test(db: BDconnect, request: str):
-#     user = await UserDAO.find_one_or_none_by_filters(session=db, username=request)
-#     return user

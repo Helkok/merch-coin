@@ -4,7 +4,8 @@ services:
   web:
     build: .
     command: >
-      bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8080"
+      bash -c "alembic upgrade head && pytest /work/tests && uvicorn app.main:app --host 0.0.0.0 --port 8080"
+
     volumes:
       - .:/app
     ports:

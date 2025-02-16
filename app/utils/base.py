@@ -36,7 +36,6 @@ class BaseDAO:
     @classmethod
     async def add(cls, session: AsyncSession, **values):
         '''Функция для добавления объекта в базу данных'''
-        print(values)
         new_model = cls.model(**values)
         session.add(new_model)
         await session.commit()

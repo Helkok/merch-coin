@@ -41,7 +41,7 @@ def verify_token_expiration(token: str):
 
 
 async def get_current_user(session: BDconnect, token: str = Depends(get_access_token)):
-    'Получение текущего пользователя'
+    """Получение текущего пользователя"""
     payload = verify_token_expiration(token)  # Проверка токена и его срока действия
 
     username: str = payload.get("sub")

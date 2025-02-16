@@ -1,7 +1,9 @@
 from fastapi import APIRouter
 
 from app.core.security import create_access_token, verify_password
-from app.schemas.schemas import *
+
+from app.schemas.schemas import AuthRequest, AuthResponse
+
 from app.utils.base import BDconnect, UserDAO
 from app.utils.exceptions import UnauthorizedError
 

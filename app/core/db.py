@@ -1,4 +1,4 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession, AsyncAttrs
+from sqlalchemy.ext.asyncio import AsyncAttrs, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import settings
@@ -14,7 +14,6 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 
 async def get_session():
-    '''Функция для получения сессии базы данных. Вызывается в зависимостях FastAPI'''
+    """Получение сессии для работы с БД."""
     async with async_session_maker() as session:
         yield session
-

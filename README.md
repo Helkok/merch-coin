@@ -237,4 +237,7 @@ services. Below are the results of the load testing, showing how the service per
 
 *avg* **SLI** response time - 12ms
 
+## Linter description
+
+A description of the linter configuration is located in the [.ruff.toml](./.ruff.toml) file
 

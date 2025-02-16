@@ -1,5 +1,6 @@
 from typing import Optional
 
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
@@ -17,8 +18,9 @@ class Settings(BaseSettings):
 
     ACCESS_TOKEN_EXPIRES_MIN: int
 
-    class Config:
-        env_file = 'app/.env'
+    model_config = ConfigDict(
+        env_file='app/.env'
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

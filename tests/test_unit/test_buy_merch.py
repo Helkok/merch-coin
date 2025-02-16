@@ -1,34 +1,56 @@
+from httpx import ASGITransport, AsyncClient
 import pytest
+import pytest_asyncio
 
-from app.models import User
-from app.utils.base import InventoryDAO
-
-
-@pytest.fixture
-def user_with_coins():
-    # Возвращаем mock пользователя с 1000 монет
-    return User(username="test_user", coins=1000)
+from app.core.db import async_session_maker, get_session
+from app.main import app
+from app.utils.base import InventoryDAO, UserDAO
 
 
-def test_buy_item_success(client, user_with_coins, mocker):
-    # Мокаем запрос к базе данных для инвентаря
-    mocker.patch.object(InventoryDAO, 'find_one_or_none_by_filters', return_value=None)
+@pytest_asyncio.fixture
+async def session():
+    async for item in get_session():
+        yield item
 
-    item = "t-shirt"  # Покупаем футболку, цена которой 80 монет
-    response = client.get(f"/api/buy/{item}", headers={"Authorization": "Bearer test_token"})
 
-    # Проверка корректности выполнения
+@pytest_asyncio.fixture
+async def async_client():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://testserver") as client:
+        yield client
+
+
+async def auth_token(async_client, username):
+    user_data = {
+        "username": username,
+        "password": "test_password"
+    }
+    response = await async_client.post("/api/auth", json=user_data)
     assert response.status_code == 200
-    assert "Успешный ответ" in response.json().get("detail")
+    return response.json().get("token")
 
 
-def test_buy_item_insufficient_coins(client, user_with_coins, mocker):
-    # Мокаем запрос к базе данных для инвентаря
-    mocker.patch.object(InventoryDAO, 'find_one_or_none_by_filters', return_value=None)
+@pytest.mark.asyncio
+async def test_buy_item_success(async_client):
+    '''Тест на успешную покупку предмета.'''
+    token = await auth_token(async_client, "test_buy_item_success")
+    async with async_session_maker() as session:
+        user = await UserDAO.find_one_or_none_by_filters(session=session, username="test_buy_item_success")
+        user.coins = 1000
+        user_inventory = await InventoryDAO.find_one_or_none_by_filters(session=session, user_id=user.id,
+                                                                        item_type="t-shirt")
+        if user_inventory:
+            await session.delete(user_inventory)
+        await session.commit()
 
-    item = "hoody"  # Покупаем худи, цена 300 монет
-    user_with_coins.coins = 100  # У пользователя только 100 монет
+    item = "t-shirt"
+    response = await async_client.get(f"/api/buy/{item}", headers={"Authorization": f"Bearer {token}"})
 
-    response = client.get(f"/api/buy/{item}", headers={"Authorization": "Bearer test_token"})
+    assert response.status_code == 200
 
-    assert response.status_code == 400
+    async with async_session_maker() as session:
+        user2 = await UserDAO.find_one_or_none_by_filters(session=session, username="test_buy_item_success")
+        user_inventory = await InventoryDAO.find_one_or_none_by_filters(session=session, user_id=user.id,
+                                                                        item_type="t-shirt")
+        assert user_inventory.quantity == 1
+        assert user2.coins == 920

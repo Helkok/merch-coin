@@ -18,11 +18,9 @@ class Settings(BaseSettings):
 
     ACCESS_TOKEN_EXPIRES_MIN: int
 
-
     model_config = ConfigDict(
-        env_file='app/.env'
+        env_file='.env'
     )
-
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

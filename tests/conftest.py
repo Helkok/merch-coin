@@ -13,7 +13,6 @@ def run_migration():
     import os
     os.system("alembic upgrade head")
     yield
-    os.system("alembic downgrade base")
 
 
 @pytest.fixture(scope="session")

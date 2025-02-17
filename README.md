@@ -224,6 +224,12 @@ that would result in a negative balance will be rejected.
 
 # Additional Information
 
+## Test Coverage
+
+![Load Testing Results](tests/coverage_test.jpg)
+
+• ```Test coverage is 88%.```
+
 ## Load Testing
 
 Load testing was conducted using [k6](https://k6.io), a modern open-source tool for testing the performance of APIs and

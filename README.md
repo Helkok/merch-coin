@@ -224,18 +224,48 @@ that would result in a negative balance will be rejected.
 
 # Additional Information
 
+## Test Coverage
+
+![Load Testing Results](tests/coverage_test.jpg)
+
+• ```Test coverage is 88%.```
+
 ## Load Testing
 
 Load testing was conducted using [k6](https://k6.io), a modern open-source tool for testing the performance of APIs and
 services. Below are the results of the load testing, showing how the service performs under various loads.
 
-### Result:
+### Auth:
 
-![Load Testing Results](./load_test_result.jpg)
+![Load Testing Results](tests/load_test/auth.jpg)
 
-*avg* **RPS**: 420/s - python feature
+*avg* **RPS**: 20/s - *my pc and python feature.*
 
-*avg* **SLI** response time - 12ms
+*avg* **SLI** response time - 400ms - many processor-dependent operations that are executed synchronously in python
+
+### Buy:
+
+![Load Testing Results](tests/load_test/buy.jpg)
+
+*avg* **RPS**: 420/s - *my pc.*
+
+*avg* **SLI** response time - 11ms
+
+### SendCoins:
+
+![Load Testing Results](tests/load_test/send_coin.jpg)
+
+*avg* **RPS**: 750/s - *python feature.*
+
+*avg* **SLI** response time - 60ms
+
+### Info:
+
+![Load Testing Results](tests/load_test/info.jpg)
+
+*avg* **RPS**: 470/s - *my pc and python feature.*
+
+*avg* **SLI** response time - 20ms
 
 ## Linter description
 

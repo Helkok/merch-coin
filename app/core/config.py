@@ -20,9 +20,8 @@ class Settings(BaseSettings):
 
 
     model_config = ConfigDict(
-        env_file='app/.env'
+        env_file='.env'
     )
-
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

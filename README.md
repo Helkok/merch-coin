@@ -22,6 +22,22 @@ docker-compose up
 
 By default, service is available at http://localhost:8080.
 
+### Ports
+
+•    **8080**: The service API
+
+•    **5432**: The default PostgreSQL database port.
+
+If you need to change the port, you can modify the docker-compose.yml file:
+
+```yaml
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"  # Change the host-side port if needed
+```
+
 # Documentation
 
 The service documentation is available at /docs after starting the service. By default, it’s accessible

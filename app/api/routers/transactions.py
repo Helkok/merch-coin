@@ -24,7 +24,7 @@ async def buy_item(item: str, session: BDconnect, user: current_user):
 
     if inventory:
         inventory.quantity += 1
-        session.add(inventory)
+
     else:
         await InventoryDAO.add(session=session, user_id=user.id, item_type=item, quantity=1)
 

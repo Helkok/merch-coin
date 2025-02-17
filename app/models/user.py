@@ -27,13 +27,18 @@ class User(Base):
 
     def add_coins(self, amount: int):
         """Добавляет монеты к балансу пользователя."""
-        if amount < 0:
-            raise ValueError(
-                "У пользователя неккоректное количество монет для добавления. Количество монет должно быть больше 0.")
+        self.validate_amount(amount)
         self.coins += amount
 
     def remove_coins(self, amount: int):
         """Удаляет монеты из баланса пользователя"""
-        if self.coins < amount or self.coins - amount < 0:
+        self.validate_amount(amount)
+        if self.coins - amount < 0:
             raise ValueError("Недостаточно монет для выполнения операции.")
         self.coins -= amount
+
+    def validate_amount(self, amount: int):
+        """Проверяет, что количество монет больше 0"""
+        if amount < 0:
+            raise ValueError(
+                "Количество монет должно быть больше 0.")

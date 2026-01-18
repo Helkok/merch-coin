@@ -1,0 +1,11 @@
+.git
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/
+.pytest_cache/
+.mypy_cache/
+ruff_cache/
+postgres_data/
+*.db

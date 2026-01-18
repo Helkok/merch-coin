@@ -1,12 +1,11 @@
 FROM python:3.12-slim
 
-COPY app /work/app
-COPY requirements.txt /work
-COPY alembic.ini /work
-COPY .ruff.toml /work
-COPY alembic.ini /work
-COPY tests /work/tests
-
 WORKDIR /work
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+COPY requirements.txt /work/requirements.txt
+RUN pip install --no-cache-dir -r /work/requirements.txt
+
+COPY app /work/app
+COPY alembic.ini /work/alembic.ini
+COPY tests /work/tests
+COPY .ruff.toml /work/.ruff.toml
